@@ -2,17 +2,15 @@ import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.touch.LongPressOptions;
-import io.appium.java_client.touch.TapOptions;
 import io.appium.java_client.touch.offset.ElementOption;
 import org.openqa.selenium.WebElement;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
 import java.time.Duration;
 
-public class TestGestures extends BaseClass {
+public class TestGesturesSwipe extends BaseClass {
 
     public static AndroidDriver<AndroidElement> driver;
 
@@ -22,21 +20,20 @@ public class TestGestures extends BaseClass {
     }
 
     @Test
-    public void testPressAndHold() {
+    public void testSwipe(){
         driver.findElementByXPath("//android.widget.TextView[@text='Views']").click();
+        driver.findElementByXPath("//android.widget.TextView[@text='Date Widgets']").click();
+        driver.findElementByXPath("//android.widget.TextView[@text='2. Inline']").click();
+        driver.findElementByXPath("//*[@content-desc='9']").click();
+        WebElement element15 = driver.findElementByXPath(("//*[@content-desc='15']"));
+        WebElement element45 = driver.findElementByXPath(("//*[@content-desc='45']"));
         TouchAction touchAction = new TouchAction(driver);
-        String expandableListLocatorString = "//android.widget.TextView[@text='Expandable Lists']";
-        touchAction.tap(TapOptions.tapOptions().withElement(ElementOption.element(driver.findElementByXPath(expandableListLocatorString)))).perform();
-        driver.findElementByXPath("//android.widget.TextView[@text='1. Custom Adapter']").click();
-        WebElement peopleNamesElement = driver.findElementByXPath("//android.widget.TextView[@text='People Names']");
         touchAction
                 .longPress(LongPressOptions.longPressOptions()
-                        .withElement(ElementOption.element(peopleNamesElement))
+                        .withElement(ElementOption.element(element15))
                         .withDuration(Duration.ofSeconds(2)))
+                .moveTo(ElementOption.element(element45))
                 .release()
                 .perform();
-
-        WebElement sampleActionElement = driver.findElementById("android:id/title");
-        assert sampleActionElement.isDisplayed();
     }
 }
